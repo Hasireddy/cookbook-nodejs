@@ -7,7 +7,7 @@ const pool = new Pool({
     user: 'retrcbpo',
     database: 'retrcbpo',
     password: 'MGMQbd3OmeYsRJmpXTjsQvxxbEqYjZGi',
-    port: 5432,
+    // port: 5432,
 });
 
 
@@ -18,7 +18,7 @@ app.get('/', function(req, res) {
 
 app.get('/api/recipes', function(req, res) {
     pool
-        .query('SELECT * FROM information_schema.tables;')
+        .query('SELECT * FROM Recipe;')
         .then(results => console.log(results))
         .catch(err => console.error(err))
 })
