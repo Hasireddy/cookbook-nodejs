@@ -14,13 +14,15 @@ const app = express();
 //         .catch((err) => console.error(err))
 // });
 
-
+app.use(express.json());
 app.get('/api/detailedrecipe', async(req, res) => {
     try {
-        const dbresult = await pool.query('SELECT * FROM "Preparation";')
-        console.log(dbresult.rows);
+        const { rows } = await pool.query('SELECT * FROM "Preparation";')
+            // console.log(dbresult.rows);
+        res.status(201).send(rows);
     } catch (error) {
-        console.log('error');
+        // console.log('error');
+        res.status(500).send(error);
     }
 });
 // app.post('/api/preparation', (req, res) => {
@@ -31,5 +33,18 @@ app.get('/api/detailedrecipe', async(req, res) => {
 // });
 
 
+app.post('/api/detailedrecipe', async(req, res) => {
+    try {
+        console.log(req.body);
+        //const { rows } = await pool.query(`INSERT INTO "Preparation"(preparation_id,description) VALUES($1,$2) RETURNING * `, [5, "Hello"]);
+        const { rows } = await pool.query(`INSERT INTO "Preparation"(preparation_id,description) VALUES($1,$2) RETURNING * `, [req.body.preparation_id, req.body.description]);
+        res.status(201).send(rows);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
 
-app.listen(3001, () => console.log("server is listening on port 3001"));
+
+
+
+app.listen(3000, () => console.log("server is listening on port 3000"));
